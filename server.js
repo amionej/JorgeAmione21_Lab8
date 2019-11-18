@@ -45,19 +45,6 @@ app.get('/blog-post/:author', (req, res) => {
             status: 500
         });
     });
-    // let authorBlogPosts = [];
-    // for (let i = 0; i< blogposts.length; i++){
-    //     if (blogposts[i].author === req.params.author){
-    //         authorBlogPosts.push(blogposts[i]);
-    //     }
-    // }
-    // if (authorBlogPosts.length > 0){
-    //     return res.status(200).json( authorBlogPosts );
-    // }
-    // return res.status(400).json({
-    //     code: 404,
-    //     message : "Author not found",
-    // })
 })
 
 app.post('/blog-post', jsonParser, (req, res) => {
@@ -110,9 +97,11 @@ app.post('/blog-post', jsonParser, (req, res) => {
 app.delete('/blog-posts/:id', (req, res) => {
     BlogPosts.delete(req.params.id)
         .then(post => {
+            console.log("SIMON");
             return post.status(201).json(post);
         })
         .catch(err => {
+            console.log("Tambien");
             res.statusMessage = "Something went wrong with the DB";
             return res.status(500).json({
                 message: "Something went wrong with the DB",
@@ -137,7 +126,8 @@ app.put('/blog-posts/:id', jsonParser, (req, res) => {
     BlogPosts.getById(req.body.id)
         .then(post => {
             if (post){
-                let tempPost = json(post);
+                let tempPost = post;
+                console.log(tempPost.title)
                 if(req.body.title) {
                     tempPost.title=req.body.title;
                 } 
@@ -150,7 +140,7 @@ app.put('/blog-posts/:id', jsonParser, (req, res) => {
                 if(req.body.publishDate) {
                     tempPost.publishDate=req.body.publishDate;
                 }
-                BlogPosts.put(id, tempPost)
+                BlogPosts.put(req.body.id, tempPost)
                     .then(updatedPost => {
                         return res.status(201).json(updatedPost);
                     })
@@ -176,32 +166,6 @@ app.put('/blog-posts/:id', jsonParser, (req, res) => {
                 status: 500
             });
         });
-    // for (let i = 0; i< blogposts.length; i++){
-    //     if (String(blogposts[i].id) === req.params.id){
-    //         if(req.body.title) {
-    //             blogposts[i].title=req.body.title;
-    //         } 
-    //         if(req.body.content) {
-    //             blogposts[i].content=req.body.content;
-    //         }
-    //         if(req.body.author) {
-    //             blogposts[i].author=req.body.author;
-    //         }
-    //         if(req.body.publishDate) {
-    //             blogposts[i].publishDate=req.body.publishDate;
-    //         }
-    //         postUpdated=blogposts[i]
-    //         return res.status(202).json({
-    //             success: 'true',
-    //             message: 'Post updated successfully',
-    //             postUpdated
-    //           })
-    //     }
-    // }
-    // return res.status(404).json({
-    //     code: 404,
-    //     message : `Post with id ${req.body.id} does not exist`,
-    // })
 })
 
 function runServer(port, databaseUrl){

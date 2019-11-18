@@ -43,7 +43,7 @@ let BlogPosts = {
             })
     },
     getById: function(id){
-        return Post.find({id: id})
+        return Post.findOne({id: id})
             .then( post => {
                 return post;
             })
@@ -52,7 +52,7 @@ let BlogPosts = {
             })
     },
     put: function(id, updatedObj){
-        return Post.findOneAndUpdate({id: id}, {$set: {"author":updatedObj.name, "content":updatedObj.content, "publishDate":updatedObj.publishDate,"title":updatedObj.title,}}, {new: true})
+        return Post.findOneAndUpdate({id: id}, {$set: {"author":updatedObj.author, "content":updatedObj.content, "publishDate":updatedObj.publishDate,"title":updatedObj.title,}}, {new: true})
             .then( post => {
                 return post;
             })
