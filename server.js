@@ -13,34 +13,6 @@ let jsonParser = bodyParser.json();
 app.use(express.static('public'));
 app.use( morgan( 'dev' ));
 
-// var today = new Date();
-
-// let blogposts = [
-//     {
-//         id: 1,
-//         title: 'hello',
-//         content: '1x1=1',
-//         author: 'Jorge',
-//         publishDate: today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(),
-//     },
-//     {
-//         id: 2,
-//         title: 'goodbye',
-//         content: '2x2=4',
-//         author: 'Maria',
-//         publishDate: today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(),
-//     },
-//     {
-//         id: 3,
-//         title: 'hasta pronto',
-//         content: '3x3=9',
-//         author: 'Jose',
-//         publishDate: today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate(),
-//     },
-// ];
-
-// ID IN BODY BEING NUMBER TYPE MAY CAUSE PROBLEMS WHEN REQUESTING IN POSTMAN
-
 app.get('/blog-posts', (req, res) => {
     BlogPosts.getAll()
     .then(posts => {
@@ -114,17 +86,17 @@ app.post('/blog-post', jsonParser, (req, res) => {
               message: 'publishDate is required'
             });
         }
-        let temp = {
+        let newPost = {
             id: uuid.v4(),
             title: req.body.title,
             content: req.body.content,
             author: req.body.author,
             publishDate: req.body.publishDate,
         };
-        
-        BlogPosts.post(temp)//it is a promise, so there goes a .then()
-            .then(newPost => {
-                return res.status(201).json(newPost);
+        console.log(newPost);
+        BlogPosts.post(newPost)//it is a promise, so there goes a .then()
+            .then(post => {
+                return res.status(201).json(post);
             })
             .catch(err => {
                 res.statusMessage = "Something went wrong with the DB";
