@@ -2,7 +2,7 @@ let mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 let blogPostSchema = mongoose.Schema({
-    id: {type: Number,
+    id: {type: String,
         required: true,
     },
     title: {type: String},
