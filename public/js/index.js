@@ -11,7 +11,7 @@ function fetchPosts(){
     })
     .then(function(responseJSON){
         console.log(responseJSON);
-        let blogposts = responseJSON.blogposts;
+        let blogposts = responseJSON;
         blogposts.map((post) => {
             $("#blog-posts").append(
                 `<li class = "listitem">
